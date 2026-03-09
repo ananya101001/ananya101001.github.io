@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ananya - Software Developer Portfolio</title>
+    <style>
+        :root {
+            --primary-red: #E50914;
+            --background-color: #141414;
+            --card-color: #2F2F2F;
+            --text-color: #FFFFFF;
+            --text-muted: #A0A0A0;
+            --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+    body {
+    background-color: var(--background-color);
+    background-image: 
+        linear-gradient(rgba(20, 20, 20, 0.4), rgba(20, 20, 20, 0.4)), /* lighter overlay */
+       url('https://images.unsplash.com/photo-1597852070402-16e42b6c7e1f?w=1200');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: var(--text-color);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+}
+
+
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0));
+            position: fixed;
+            width: calc(100% - 120px);
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-red);
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .navbar-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+        }
+        
+        .navbar-links a:hover {
+            color: var(--text-muted);
+        }
+
+        .hero {
+            height: 80vh;
+            background-image: linear-gradient(to top, var(--background-color) 0%, rgba(0,0,0,0.2) 20%), url('https://images.unsplash.com/photo-1620712943543-2858200f745a?w=1080');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 60px;
+        }
+
+        .hero-title {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5em;
+            margin: 10px 0;
+            max-width: 600px;
+        }
+
+        .hero-button {
+            background-color: var(--primary-red);
+            color: var(--text-color);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 20px;
+            text-decoration: none;
+            width: fit-content;
+        }
+
+        .main-content {
+            padding: 0 60px 60px 60px;
+        }
+
+        .category-row {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .projects-container {
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-bottom: 20px; /* for scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-red) var(--background-color);
+        }
+
+        .projects-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .projects-container::-webkit-scrollbar-thumb {
+            background-color: var(--primary-red);
+            border-radius: 4px;
+        }
+
+        .project-card {
+            flex: 0 0 300px;
+            height: 170px;
+            background-color: var(--card-color);
+            border-radius: 8px;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .project-card .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0));
+            padding: 40px 15px 15px 15px;
+            text-align: left;
+        }
+        
+        .project-card .project-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .project-card .project-tags {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        .modal-content {
+            background-color: var(--card-color);
+            margin: 10% auto;
+            padding: 40px;
+            border-radius: 8px;
+            width: 60%;
+            max-width: 800px;
+            position: relative;
+        }
+        
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .modal-title {
+            font-size: 2.5em;
+            color: var(--primary-red);
+        }
+        
+        .modal-body p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .modal-links {
+            margin-top: 20px;
+        }
+
+        .modal-link {
+             background-color: var(--primary-red);
+            color: var(--text-color);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="projectModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2 id="modalTitle" class="modal-title">Project Title</h2>
+        <div id="modalBody" class="modal-body">
+            <p>Project description goes here...</p>
+        </div>
+        <div id="modalLinks" class="modal-links">
+            <a href="#" target="_blank" class="modal-link">View Code</a>
+        </div>
+      </div>
+    </div>
+    
+    <header class="navbar">
+        <a href="#" class="navbar-brand">ANANYA PRAVEEN SHETTY</a>
+        <div class="navbar-links">
+            <a href="https://github.com/ananya101001" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/ananya-shetty-29may/" target="_blank">LinkedIn</a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ananyapshetty999@gmail.com" target="_blank">Contact</a>
+
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1 class="hero-title">Ananya Praveen Shetty</h1>
+        <p class="hero-subtitle">A Software developer passionate about building intelligent, end-to-end solutions—from scalable cloud infrastructure and mobile apps to AI agents and machine learning models.</p>
+        <a href="mailto:your.email@example.com" class="hero-button">Get In Touch</a>
+    </section>
+
+    <main class="main-content">
+
+       <div class="category-row">
+    <h2 class="category-title">AI Agentic Systems</h2>
+    <div class="projects-container">
+        
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1677756119517-756a188d2d94?w=800');" 
+             onclick="openModal('Autonomous Data Analyst', 'An autonomous AI agent that takes natural language prompts, plans tasks, writes, and executes Python code to perform data analysis and generate visualizations.', 'https://github.com/ananya101001/autonomous-data-analyst')">
+            <div class="overlay"><h3 class="project-title">Autonomous Data Analyst</h3><p class="project-tags">Python, Streamlit, AI Agents</p></div>
+        </div>
+        
+        <div class="project-card" style="background-image: url('https://plus.unsplash.com/premium_photo-1733267068387-727038c4b62e?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" 
+             onclick="openModal('LangGraph Multi-Agent System', 'A Supervisor agent orchestrates a Researcher and a Writer agent to autonomously create reports on a given topic, showcasing collaborative AI workflows.', 'https://github.com/ananya101001/langgraph-multi-agent')">
+            <div class="overlay"><h3 class="project-title">LangGraph Multi-Agent</h3><p class="project-tags">LangGraph, AI Agents</p></div>
+        </div>
+        
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800');" 
+             onclick="openModal('LangGraph Interactive Agent', 'A stateful, human-in-the-loop travel planner. The agent pauses for user input and checkpoints its state, allowing the conversation to be resumed anytime.', 'https://github.com/ananya101001/langgraph-interactive-agent')">
+            <div class="overlay"><h3 class="project-title">LangGraph Interactive Agent</h3><p class="project-tags">LangGraph, Streamlit</p></div>
+        </div>
+        
+        <div class="project-card" style="background-image: url('https://plus.unsplash.com/premium_photo-1683121710572-7723bd2e235d?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" 
+             onclick="openModal('LangGraph ReAct Agent', 'A stateful ReAct-style agent that reasons, uses tools like web search, and iterates until it can fully answer a user\'s query.', 'https://github.com/ananya101001/langgraph-react-agent')">
+            <div class="overlay"><h3 class="project-title">LangGraph ReAct Agent</h3><p class="project-tags">LangGraph, Gemini, ReAct</p></div>
+        </div>
+        
+    </div>
+</div>
+
+
+        <div class="category-row">
+    <h2 class="category-title">DevOps & Automation</h2>
+    <div class="projects-container">
+        
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/2161048117/photo/devops-concept-sign-on-digital-cpu.jpg?s=1024x1024&w=is&k=20&c=ZCFEfYpdXzyySe5d1lu8O9U4cYMb5kOLooYXiPeGy94=');" 
+             onclick="openModal('Log Analytics Platform', 'A real-time log ingestion and analytics platform using a modern data pipeline with Kafka, Zookeeper, and ClickHouse, all containerized with Docker.', 'https://github.com/ananya101001/log-analytics-platform')">
+            <div class="overlay"><h3 class="project-title">Log Analytics Platform</h3><p class="project-tags">Docker, Kafka, ClickHouse</p></div>
+        </div>
+
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1022368406/photo/3d-illustration-digital-block-chain-code-low-polygonal-grid-of-triangles-glowing-in-blue-dot.jpg?s=1024x1024&w=is&k=20&c=LKN2ClG9OHpMGZ-zUHlIRntJw5Hn0D5EkcMr_q0MU5Y=');" 
+             onclick="openModal('Automate Deployment', 'A project focused on deployment automation scripts and CI/CD pipeline configurations to streamline software delivery.', 'https://github.com/ananya101001/Automate-Deployment')">
+            <div class="overlay"><h3 class="project-title">Automate-Deployment</h3><p class="project-tags">CI/CD, Automation, Scripting</p></div>
+        </div>
+
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800');" 
+             onclick="openModal('EKS, Jenkins & Terraform', 'Infrastructure as Code (IaC) to provision and manage an AWS Kubernetes (EKS) cluster using Terraform, with a CI/CD pipeline managed by Jenkins.', 'https://github.com/ananya101001/amazon-eks-jenkins-terraform')">
+            <div class="overlay"><h3 class="project-title">EKS, Jenkins & Terraform</h3><p class="project-tags">AWS EKS, Terraform, IaC</p></div>
+        </div>
+
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800');" 
+             onclick="openModal('AWS IoT Dashboard', 'A monitoring dashboard for AWS IoT services, demonstrating skills in data visualization and real-time cloud monitoring.', 'https://github.com/ananya101001/aws-iot-dashboard')">
+            <div class="overlay"><h3 class="project-title">AWS IoT Dashboard</h3><p class="project-tags">AWS IoT, Monitoring, Dashboards</p></div>
+        </div>
+
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1689739403/photo/infinite-loop-metaverse-web3-digital-artificial-intelligence-technology.jpg?s=1024x1024&w=is&k=20&c=pv_kBFm1VbocNPvLuw9P7aO1Pa1fE338kKuDFiaQVOw=');" 
+             onclick="openModal('Ansible Automation', 'A repository containing Ansible playbooks and roles for automated server configuration, provisioning, and application deployment.', 'https://github.com/ananya101001/Homework-Ansible')">
+            <div class="overlay"><h3 class="project-title">Ansible</h3><p class="project-tags">Ansible, YAML, Automation</p></div>
+        </div>
+
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/2123171438/photo/hands-of-robot-and-human-touch-cloud-security-of-global-networking-ensuring-data-protection.jpg?s=1024x1024&w=is&k=20&c=e9lmdoDu_sEoIWSDrChfN0c6ggPZjYQaZP0wh83V2Zk=');" 
+             onclick="openModal('Jenkins CI/CD', 'A collection of configurations and job templates (Jenkinsfile) for setting up robust CI/CD pipelines using Jenkins.', 'https://github.com/ananya101001/Jenkins')">
+            <div class="overlay"><h3 class="project-title">Jenkins</h3><p class="project-tags">Jenkins, CI/CD, Pipelines</p></div>
+        </div>
+
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1352203098/photo/devops-software-development-and-it-operations-engineer-working-in-agile-methodology.jpg?s=1024x1024&w=is&k=20&c=BKZ6ljThUJDpuzNMq9_I2Vn7px3jMrUqW03ILBQ41eQ=');" 
+             onclick="openModal('AWS Lambda Workshop', 'A workshop project covering the setup, deployment, and permissions management for serverless functions using AWS Lambda.', 'https://github.com/ananya101001/lambda_workshop')">
+            <div class="overlay"><h3 class="project-title">Lambda Workshop</h3><p class="project-tags">AWS Lambda, Serverless</p></div>
+        </div>
+
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1668854096784-3ce7679fa841?q=80&w=2664&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" 
+             onclick="openModal('Serverless Architectures', 'A project focused on building and deploying serverless applications and architectures using frameworks and cloud services.', 'https://github.com/ananya101001/Serverless')">
+            <div class="overlay"><h3 class="project-title">Serverless</h3><p class="project-tags">Serverless, Cloud Functions</p></div>
+        </div>
+
+    </div>
+</div>
+
+
+        <div class="category-row">
+    <h2 class="category-title">Mobile Apps</h2>
+    <div class="projects-container">
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1480694313141-fce5e697ee25?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" onclick="openModal('Hackathon-AppSync', 'Android app built for a hackathon; focuses on rapid prototyping and end-to-end app sync/flows.', 'https://github.com/ananya101001/Hackathon-AppSync')">
+            <div class="overlay"><h3 class="project-title">AppSync</h3><p class="project-tags">Android</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" onclick="openModal('Moodify', 'Mood tracking / wellness Android app with simple UI and local storage.', 'https://github.com/ananya101001/Moodify')">
+            <div class="overlay"><h3 class="project-title">Moodify</h3><p class="project-tags">Android</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1514575110897-1253ff7b2ccb?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" onclick="openModal('Android-LLM-UI-App', 'Android UI that integrates an LLM-backed assistant experience.', 'https://github.com/ananya101001/Android-LLM-UI-App')">
+            <div class="overlay"><h3 class="project-title">Android-LLM-UI-App</h3><p class="project-tags">Android, LLM</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1423784346385-c1d4dac9893a?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" onclick="openModal('Android--TorchApp', 'Simple flashlight app utilizing device torch controls.', 'https://github.com/ananya101001/Android--TorchApp')">
+            <div class="overlay"><h3 class="project-title">Android--TorchApp</h3><p class="project-tags">Android</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1596742578443-7682ef5251cd?q=80&w=1854&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" onclick="openModal('Android-ActivityLifeCycle', 'Demonstrates Android Activity lifecycle events and logging.', 'https://github.com/ananya101001/Android-ActivityLifeCycle')">
+            <div class="overlay"><h3 class="project-title">Android-ActivityLifeCycle</h3><p class="project-tags">Android</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://plus.unsplash.com/premium_photo-1728831285095-63346794b6ad?q=80&w=1654&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" onclick="openModal('Android-App---Chat-with-Gemini', 'Chat application using Google Gemini for responses.', 'https://github.com/ananya101001/Android-App---Chat-with-Gemini')">
+            <div class="overlay"><h3 class="project-title">Chat with Gemini</h3><p class="project-tags">Android, LLM</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://images.unsplash.com/photo-1730817403234-218e7b7dbae4?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" onclick="openModal('Android-ClapApp', 'Utility app that reacts to clap sounds (audio input) for quick actions.', 'https://github.com/ananya101001/Android-ClapApp')">
+            <div class="overlay"><h3 class="project-title">Android-ClapApp</h3><p class="project-tags">Android</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://plus.unsplash.com/premium_photo-1743278353550-c86188858c27?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" onclick="openModal('ImplicitIntentApp', 'Demonstrates usage of implicit intents in Android.', 'https://github.com/ananya101001/ImplicitIntentApp')">
+            <div class="overlay"><h3 class="project-title">ImplicitIntentApp</h3><p class="project-tags">Android</p></div>
+        </div>
+    </div>
+</div>
+
+<div class="category-row">
+    <h2 class="category-title">Academic Projects</h2>
+    <div class="projects-container">
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1349390515/photo/paperless-workplace-idea-e-signing-electronic-signature-document-management-businessman-signs.jpg?s=1024x1024&w=is&k=20&c=60tt0AgNgFsNDR28IT78VEw0yAsZQ-XsiUbj5zhwXFk=');" onclick="openModal('Team Project - Sprinters', 'Collaborative academic project under GitHub Classroom for team 2024849 (Sprinters).', 'https://github.com/gopinathsjsu/team-project-2024849-sprinters')">
+            <div class="overlay"><h3 class="project-title">Team Project - Sprinters</h3><p class="project-tags">Collaboration, GitHub Classroom</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1075599562/photo/programmer-working-with-program-code.jpg?s=1024x1024&w=is&k=20&c=R9Be5UlsTmSki_Bqxqedt-65U_mNMsVQzOpECKvawDs=');" onclick="openModal('Connectify Project', 'A social networking style application built as an academic assignment.', 'https://github.com/ananya101001/Connectify_project')">
+            <div class="overlay"><h3 class="project-title">Connectify</h3><p class="project-tags">Web App, Academic</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1296986175/photo/young-man-working-for-a-food-delivery-service-checking-with-road-motorcycle-in-the-city.jpg?s=1024x1024&w=is&k=20&c=mZuph3O2_MwqoY1NMPdIHDukBdQm3ytFhKbg887jgi8=');" onclick="openModal('Food Delivery Application', 'An end-to-end food ordering and delivery app demonstrating full-stack skills.', 'https://github.com/ananya101001/Food_Delivery_Application')">
+            <div class="overlay"><h3 class="project-title">Food Delivery</h3><p class="project-tags">Full Stack, MySQL</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1336546162/vector/planning-and-time-management-concept.jpg?s=1024x1024&w=is&k=20&c=zwWrwpbIb1PPQy74XVhQeFFkU27PAklX_Z0XbFFUcpY=');" onclick="openModal('Task Management', 'A project management tool for task assignment and tracking.', 'https://github.com/ananya101001/Task-Management-')">
+            <div class="overlay"><h3 class="project-title">Task Management</h3><p class="project-tags">Web App</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/2057625445/photo/earth-and-mars.jpg?s=1024x1024&w=is&k=20&c=7qHbNPtKm19peWj2-TUXC7m_15gGF3sm5CaQY1KBaY8=');" onclick="openModal('Mars Application', 'Academic app built to simulate Mars exploration features.', 'https://github.com/ananya101001/mars-application')">
+            <div class="overlay"><h3 class="project-title">Mars Application</h3><p class="project-tags">Simulation, Web</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1494642262/photo/people-in-the-cinema-auditorium-with-empty-white-screen.jpg?s=1024x1024&w=is&k=20&c=z3J2vxmZeLoGMU_IOGb1oQZfnxTVDhJFT8r_Oy_RJVE=');" onclick="openModal('Movie Search App', 'An academic web app for searching movies with API integration.', 'https://github.com/ananya101001/movie-search-app')">
+            <div class="overlay"><h3 class="project-title">Movie Search App</h3><p class="project-tags">React, API</p></div>
+        </div>
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1451079337/photo/customer-review-good-rating-concept-hand-pressing-user-and-five-star-icon-on-visual-screen.jpg?s=1024x1024&w=is&k=20&c=QPAM1YxTn6I8Qwp90manpa0ikNcuMEqfLC4Zs0j37qQ=');" onclick="openModal('ServicesApp', 'A services-based application project created for academic purposes.', 'https://github.com/ananya101001/ServicesApp')">
+            <div class="overlay"><h3 class="project-title">ServicesApp</h3><p class="project-tags">Web App</p></div>
+        </div>
+    </div>
+</div>
+
+<div class="category-row">
+    <h2 class="category-title">Machine Learning Projects</h2>
+    <div class="projects-container">
+        
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1408230637/photo/unrecognizable-couple-arriving-at-the-accommodation-with-their-suitcases.jpg?s=1024x1024&w=is&k=20&c=pi0C5pUzrHmfK72kFrYCuAYXsWzE2fCL7WuD32ncX50=');" 
+             onclick="openModal('Airbnb Success Predictor', 'A machine learning pipeline that predicts Airbnb listing profitability, occupancy, and key success drivers using regression, clustering, and classification models.', 'https://github.com/ananya101001/Airbnb-Success-Predictor')">
+            <div class="overlay"><h3 class="project-title">Airbnb Success Predictor</h3><p class="project-tags">Python, ML, Clustering</p></div>
+        </div>
+        
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1574636171/vector/medical-chat-bot-vector-concept.jpg?s=1024x1024&w=is&k=20&c=94Rwgenr0uUjgmBH-t7MxE_BQ_p3GCZvBcb5DyvZGIs=');" 
+             onclick="openModal('Health Assistant Chatbot', 'An AI-powered chatbot that assists users with healthcare-related queries and provides conversational support.', 'https://github.com/ananya101001/Health_assistant_chatbot')">
+            <div class="overlay"><h3 class="project-title">Health Assistant Chatbot</h3><p class="project-tags">Python, NLP, AI</p></div>
+        </div>
+        
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1391230619/photo/the-titanic-ocean-liner-after-it-struck-an-iceberg-in-1912-off-the-coast-of-newfoundland-in.jpg?s=1024x1024&w=is&k=20&c=n0fY2k8a0ju2el9HoAp0WoM3AThkRNRFGYNQqROgltc=');" 
+             onclick="openModal('Titanic Survival Prediction', 'A classification model predicting survival chances of Titanic passengers using historical dataset.', 'https://github.com/ananya101001/titanic-survival-prediction')">
+            <div class="overlay"><h3 class="project-title">Titanic Survival</h3><p class="project-tags">Python, Classification</p></div>
+        </div>
+        
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1187653232/photo/close-up-young-man-hand-press-on-calculator-to-check-and-summary-expense-of-home-loan.jpg?s=1024x1024&w=is&k=20&c=Jif9PHXbX9XBz9P2NKdIXnyasUfE39JETVq2n8PcnpA=');" 
+             onclick="openModal('Loan Prediction Problem', 'Machine learning solution to predict loan approval likelihood based on applicant details.', 'https://github.com/ananya101001/loan-prediction-problem')">
+            <div class="overlay"><h3 class="project-title">Loan Prediction</h3><p class="project-tags">Python, Pandas, ML</p></div>
+        </div>
+        
+        <div class="project-card" style="background-image: url('https://media.istockphoto.com/id/1338825418/vector/house-mortgage-calculation-residential-budget-insurance-or-cost-and-expense-real-estate.jpg?s=1024x1024&w=is&k=20&c=5_gljG698siOYnBzLDKgiigmpCZMJweBPbTR0iJ_Ods=');" 
+             onclick="openModal('House Price Prediction', 'Regression project predicting house prices using features like area, location, and amenities.', 'https://github.com/ananya101001/House_price_prediction')">
+            <div class="overlay"><h3 class="project-title">House Price Prediction</h3><p class="project-tags">Python, Regression</p></div>
+        </div>
+        
+    </div>
+</div>
+
+
+    </main>
+    
+<script>
+    var modal = document.getElementById("projectModal");
+    var closeButton = document.querySelector(".close-button");
+
+    function openModal(title, description, codeLink) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalBody').innerHTML = `<p>${description}</p>`;
+        
+        var linksContainer = document.getElementById('modalLinks');
+        linksContainer.innerHTML = ''; // Clear old links
+        
+        if (codeLink && codeLink !== '#') {
+             linksContainer.innerHTML += `<a href="${codeLink}" target="_blank" class="modal-link">View Code on GitHub</a>`;
+        }
+        
+        modal.style.display = "block";
+    }
+
+    closeButton.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
